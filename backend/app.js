@@ -32,8 +32,7 @@ app.use(errorHandler);
 
 
 app.get('/', (req, res) => {
-    res.status(401);
-    res.send('Hello World');
+    res.json('Hello World');
 });
 
 app.listen(PORT, HOST, () => {
