@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const app = express();
 const cors = require("cors");
+import path from 'path';
 const userRoutes = require('./routes/userRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
@@ -30,12 +31,20 @@ app.use('/api/tasks', taskRoutes)
 app.use(notFound);
 app.use(errorHandler);
 
+if(process.env.NODE_ENV === 'production') {
+    const __dirname = path.resolve();
+    app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
-app.get('/', (req, res) => {
-    res.json('Hello World');
-});
+    app.get('*', (res, req)=>res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html')))
+} else {
+    app.get('/', (req, res) => res.send('Server is being served'))
+}
+
+// app.get('/', (req, res) => {
+//     res.status(401);
+//     res.send('Hello World');
+// });
 
 app.listen(PORT, HOST, () => {
     console.log(`Server is running on http://${HOST}:${PORT}`);
 });
-
