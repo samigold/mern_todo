@@ -31,10 +31,10 @@ app.use(notFound);
 app.use(errorHandler);
 
 
-// app.get('/', (req, res) => {
-//     res.status(401);
-//     res.send('Hello World');
-// });
+app.get('/', (req, res) => {
+    res.status(401);
+    res.send('Hello World');
+});
 
 app.listen(PORT, HOST, () => {
     console.log(`Server is running on http://${HOST}:${PORT}`);
